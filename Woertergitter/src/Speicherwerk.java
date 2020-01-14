@@ -4,7 +4,7 @@ public class Speicherwerk {
 
     }
 
-    public void load (String path){ // !!! Rückgabe eigentlich ein Textdokument/ file !!!
+    public void load (String path){ // !!! Rueckgabe eigentlich ein Textdokument/ file !!!
 
     }
     public void savaAndLoad(Woertersuche woertersuch, String path){
