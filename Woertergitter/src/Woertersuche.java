@@ -3,7 +3,7 @@ import java.util.LinkedList;
 public class Woertersuche {
 
     private Feld feld;
-    private LinkedList<Wort> Woerter;
+    private LinkedList<Wort> woerter;
 
 
     public void printWordlist() {}
@@ -18,11 +18,16 @@ public class Woertersuche {
 
     public void createMinimalField() {}
 
+    public Feld getFeld() {
+        return feld;
+    }
+
+    public Wort[] getWoerter() {
+        return (Wort[]) woerter.toArray();
+        // eventuell auch ueber "return LinkedList" realisierbar
+    }
+
     public boolean setField() {return false;}  //still needs file-parameter
-
-    public int getLength() {return 0;}
-
-    public int getHeight() {return 0;}
 
     public boolean solve() {return false;}
 
