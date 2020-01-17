@@ -1,5 +1,6 @@
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.net.InetAddress;
+import java.io.InputStreamReader;
 
 public class UserInterface {
 
@@ -7,9 +8,8 @@ public class UserInterface {
     private String recentlyLoaded;
 
     public static void main(String[] args) throws IOException {
-        //Speicherwerk.save(grid);
+        BufferedReader writer = new BufferedReader(new InputStreamReader(System.in));
 
-        System.out.println();
     }
 
     private static void printMenu() {}

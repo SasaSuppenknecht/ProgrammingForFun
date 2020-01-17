@@ -4,22 +4,41 @@ import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class Saver {
 
-    public static void save (WordSearch w) throws IOException {
+    public static void save (WordSearch w, String fileName) throws IOException {
+
+        //todo exception handling for illegal filenames and other
         String userName = System.getProperty("user.name");
-        String path = "C:\\Users\\"+ userName +"\\Documents\\GitterSave.txt";
+        String dirPathString = "C:\\Users\\"+ userName +"\\Documents\\GitterSaves";
+        Path dirPath = Paths.get(dirPathString);
 
-        File file = new File(path);     //erzeugt Objekt, an angegebenen Pfad
-        file.createNewFile();       //erstellt Datei, falls sie nicht existiert
-        FileWriter fileWriter = new FileWriter(path);
+        if (!Files.exists(dirPath)) {
+            Files.createDirectory(dirPath);
+        }
 
+        String filePathString = dirPathString + "\\" + fileName + ".txt";
+
+        //todo method should be able to overwrite file
+        File saveFile = new File(filePathString);     //erzeugt Objekt, an angegebenen Pfad
+        saveFile.createNewFile();       //erstellt Datei, falls sie nicht existiert
+
+        FileWriter fileWriter = new FileWriter(filePathString);
         BufferedWriter writer = new BufferedWriter(fileWriter);
 
         Field field = w.getField();
-        int height = field.getHeight();
         int length = field.getLength();
+        int height = field.getHeight();
+
+        writer.write(length);
+        writer.newLine();
+        writer.write(height);
+        writer.newLine();
+
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < length; j++) {
                 writer.write( field.getChar(j,i) + " ");
@@ -28,6 +47,7 @@ public class Saver {
         }
         writer.newLine();
 
+        //todo also needs to save solution to a word
         for (Word word : w.getWords()) {
             String s = word.getWord();
             writer.write(s);
@@ -35,8 +55,8 @@ public class Saver {
         }
     }
 
-    public static void load (String path){ // !!! Rueckgabe eigentlich ein Textdokument/ file !!!
-
+    public static void load (String loadFile){ // !!! Rueckgabe eigentlich ein Textdokument/ file !!!
+        //todo exception handling for illegal/wrong path
     }
     public static void savaAndLoad(WordSearch w, String fileSaveName, String fileLoadName){
 
