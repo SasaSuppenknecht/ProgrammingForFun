@@ -4,15 +4,23 @@ public class Word {
     private int x;
     private int y;
 
-    public Word (String wort){ //Konstruktor: Wort ohne Loesung
-        this.WORD = wort;
+    public Word (String wort) throws IllegalArgumentException{ //Konstruktor: Wort ohne Loesung
+        if (wort.length() > 4 && wort.length() < 16) {
+            this.WORD = wort.toUpperCase().trim();
+        }else{
+            throw new IllegalArgumentException("Wortlaenge nicht zwischen 5 und 15!");
+        }
         this.direction = null;
         this.x = -1;
         this.y = -1;
     }
 
     public Word (String wort, Direction direction, int x, int y) throws IllegalArgumentException{ //Konstruktor: Wort mit Loesung
-        this.WORD = wort.toUpperCase().trim();
+        if (wort.length() > 4 && wort.length() < 16) {
+            this.WORD = wort.toUpperCase().trim();
+        }else{
+            throw new IllegalArgumentException("Wortlaenge nicht zwischen 5 und 15!");
+        }
         this.direction = direction;
         if (x >= 0) {
             this.x = x;
