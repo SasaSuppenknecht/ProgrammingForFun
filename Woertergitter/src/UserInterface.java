@@ -1,12 +1,15 @@
 import java.io.IOException;
 import java.net.InetAddress;
 
-public class Benutzeroberflaeche {
+public class UserInterface {
 
-    private static Woertersuche gitter;
+    private static WordSearch grid;
+    private String recentlyLoaded;
 
     public static void main(String[] args) throws IOException {
-        //Speicherwerk.save(gitter);
+        //Speicherwerk.save(grid);
+
+        System.out.println();
     }
 
     private static void printMenu() {}

@@ -1,14 +1,19 @@
 import java.util.LinkedList;
 
-public class Woertersuche {
+public class WordSearch {
 
-    private Feld feld;
-    private LinkedList<Wort> woerter;
+    private Field field;
+    private LinkedList<Word> words;
 
+    public WordSearch (){} //leerer Konstruktor, für Benutzeroberfläche
+
+    public WordSearch (int length, int height){
+        field = new Field(length, height);
+    }
 
     public void printWordlist() {}
 
-    public void addToWordlist(Wort wort) {}
+    public void addToWordlist(Word word) {}
 
     public boolean removeFromWordlist(int index) {return false;}
 
@@ -18,12 +23,12 @@ public class Woertersuche {
 
     public void createMinimalField() {}
 
-    public Feld getFeld() {
-        return feld;
+    public Field getField() {
+        return field;
     }
 
-    public Wort[] getWoerter() {
-        return (Wort[]) woerter.toArray();
+    public Word[] getWords() {
+        return (Word[])  words.toArray();
         // eventuell auch ueber "return LinkedList" realisierbar
     }
 

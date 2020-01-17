@@ -5,10 +5,10 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
-public class Speicherwerk {
+public class Saver {
 
-    public static void save (Woertersuche woertersuche) throws IOException {
-        String userName = ""; // needs to be improved/found
+    public static void save (WordSearch w) throws IOException {
+        String userName = System.getProperty("user.name");
         String path = "C:\\Users\\"+ userName +"\\Documents\\GitterSave.txt";
 
         File file = new File(path);     //erzeugt Objekt, an angegebenen Pfad
@@ -17,18 +17,18 @@ public class Speicherwerk {
 
         BufferedWriter writer = new BufferedWriter(fileWriter);
 
-        Feld feld = woertersuche.getFeld();
-        int height = feld.getHeight();
-        int length = feld.getLength();
+        Field field = w.getField();
+        int height = field.getHeight();
+        int length = field.getLength();
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < length; j++) {
-                writer.write(feld.getChar(j,i) + " ");
+                writer.write( field.getChar(j,i) + " ");
             }
             writer.newLine();
         }
         writer.newLine();
 
-        for (Wort word : woertersuche.getWoerter()) {
+        for (Word word : w.getWords()) {
             String s = word.getWord();
             writer.write(s);
             writer.newLine();
@@ -38,7 +38,7 @@ public class Speicherwerk {
     public static void load (String path){ // !!! Rueckgabe eigentlich ein Textdokument/ file !!!
 
     }
-    public static void savaAndLoad(Woertersuche woertersuche, String path){
+    public static void savaAndLoad(WordSearch w, String fileSaveName, String fileLoadName){
 
     }
 }

@@ -1,19 +1,19 @@
-public class Wort {
-    private final String WORT; // jedes Wort sollten ausschließlich in Großbuchstaben gespeichert werden und sollte auch nicht veränderbar sein, dafuer erstellt man dann neue Worte
-    private Richtung richtung;
+public class Word {
+    private final String WORD; // jedes Wort sollten ausschließlich in Großbuchstaben gespeichert werden und sollte auch nicht veränderbar sein, dafuer erstellt man dann neue Worte
+    private Direction direction;
     private int x;
     private int y;
 
-    public Wort (String wort){ //Konstruktor: Wort ohne Loesung
-        this.WORT = wort;
-        this.richtung = null;
+    public Word (String wort){ //Konstruktor: Wort ohne Loesung
+        this.WORD = wort;
+        this.direction = null;
         this.x = -1;
         this.y = -1;
     }
 
-    public Wort (String wort, Richtung richtung, int x, int y) throws IllegalArgumentException{ //Konstruktor: Wort mit Loesung
-        this.WORT = wort.toUpperCase().trim();
-        this.richtung = richtung;
+    public Word (String wort, Direction direction, int x, int y) throws IllegalArgumentException{ //Konstruktor: Wort mit Loesung
+        this.WORD = wort.toUpperCase().trim();
+        this.direction = direction;
         if (x >= 0) {
             this.x = x;
         }else{
@@ -27,15 +27,15 @@ public class Wort {
     }
 
     public String getWord(){
-        return WORT;
+        return WORD;
     }
 
     public void getPositionInField(){ //Ausgabe in Konsole
         System.out.println(" "); //TODO
     }
 
-    public void setSolution (Richtung richtung, int x, int y) throws IllegalArgumentException{ //eventuell mit nested class
-        this.richtung = richtung;
+    public void setSolution (Direction direction, int x, int y) throws IllegalArgumentException{ //eventuell mit nested class
+        this.direction = direction;
         if (x >= 0) {
             this.x = x;
         }else{
