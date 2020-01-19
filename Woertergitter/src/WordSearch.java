@@ -149,9 +149,8 @@ public class WordSearch {
         return field;
     }
 
-    public Word[] getWords() {
-        return (Word[])  words.toArray();
-        // eventuell auch ueber "return LinkedList" realisierbar
+    public LinkedList<Word> getWords() {
+        return words;
     }
 
     public void print(boolean withSolution) {

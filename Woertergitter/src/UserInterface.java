@@ -8,10 +8,14 @@ public class UserInterface {
     private String recentlyLoaded;
 
     public static void main(String[] args) throws IOException {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        //BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
-        WordSearch w = Saver.load("test");
-        w.print(true);
+        WordSearch w = new WordSearch(4,4 );
+        if (args.length != 0) {
+            if (args[0].equals("testing")) {
+                TestClass.fillTest(w);
+            }
+        }
     }
 
     private static void printMenu() {}

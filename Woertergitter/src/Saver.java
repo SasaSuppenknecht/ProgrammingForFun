@@ -42,13 +42,14 @@ public class Saver {
         int length = field.getLength();
         int height = field.getHeight();
 
-        writer.write(length);
+        writer.write(String.valueOf(length));
         writer.newLine();
-        writer.write(height);
+        writer.write(String.valueOf(height));
         writer.newLine();
 
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < length; j++) {
+                System.out.println(field.getChar(j, i));
                 writer.write( field.getChar(j,i) + " ");
             }
             writer.newLine();
