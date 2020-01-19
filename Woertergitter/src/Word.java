@@ -5,22 +5,38 @@ public class Word {
     private int y;
 
     public Word (String wort) throws IllegalArgumentException{ //Konstruktor: Wort ohne Loesung
+        char[] chars = wort.toCharArray();
+        for (char c: chars) {
+            if (c < 65 || c > 122 || (c > 90 && c < 97)) {
+                throw new IllegalArgumentException("Nur die 26 Buchstaben des Alphabets verwenden.");
+            }
+        }
+
         if (wort.length() > 4 && wort.length() < 16) {
             this.WORD = wort.toUpperCase().trim();
         }else{
             throw new IllegalArgumentException("Wortlaenge nicht zwischen 5 und 15!");
         }
+
         this.direction = null;
         this.x = -1;
         this.y = -1;
     }
 
     public Word (String wort, Direction direction, int x, int y) throws IllegalArgumentException{ //Konstruktor: Wort mit Loesung
+        char[] chars = wort.toCharArray();
+        for (char c: chars) {
+            if (c < 65 || c > 122 || (c > 90 && c < 97)) {
+                throw new IllegalArgumentException("Nur die 26 Buchstaben des Alphabets verwenden.");
+            }
+        }
+
         if (wort.length() > 4 && wort.length() < 16) {
             this.WORD = wort.toUpperCase().trim();
         }else{
             throw new IllegalArgumentException("Wortlaenge nicht zwischen 5 und 15!");
         }
+
         this.direction = direction;
         if (x >= 0) {
             this.x = x;
@@ -56,4 +72,9 @@ public class Word {
         }
     }
 
+    public int getX() {return x;}
+
+    public int getY() {return y;}
+
+    public Direction getDirection() {return direction;}
 }

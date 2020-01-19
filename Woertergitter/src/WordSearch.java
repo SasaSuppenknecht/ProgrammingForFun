@@ -21,11 +21,12 @@ public class WordSearch {
     public void addToWordlist(Word word) { // sortiert eingefuegt, laengstes Wort kommt als erstes
         if (!words.contains(word)) {
            ListIterator<Word> listIterator = words.listIterator(0);
-           while (listIterator.hasNext()) {
+           while (listIterator.hasNext()) { //todo words ist zu Beginn leer, deswegen wird while nie erreicht
                Word curWord = listIterator.next();
                if (curWord.getWord().length() > word.getWord().length()) {
-                   //words.add(word);
-                   listIterator.add(word);
+                   words.add(word);
+                   //listIterator.add(word);
+                   System.out.println(word);
                }
            }
         }
@@ -93,18 +94,20 @@ public class WordSearch {
         // eventuell auch ueber "return LinkedList" realisierbar
     }
 
-    private void print(boolean withSolution) {
-        System.out.println( "  ");
+    public void print(boolean withSolution) {
+        System.out.print(" ");
         for (int x = 1; x <= field.getLength(); x++){
             System.out.print(" " + x);
         }
         for (int y = 0; y < field.getHeight(); y++) { //gibt Feld aus
-            System.out.println(y+1);
+            System.out.println("");
+            System.out.print(y+1);
             for (int x = 0; x < field.getLength(); x++) {
                 System.out.print(" " + field.getChar(x, y));
             }
         }
 
+        System.out.println(words.size());
         for (int i = 0; i < words.size(); i++){ //gibt Woerteliste aus
             Word word = words.get(i);
             System.out.println(i+1 + ". " + word.getWord() );

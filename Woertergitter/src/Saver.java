@@ -7,12 +7,18 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Scanner;
 
 public class Saver {
 
     public static void save (WordSearch w, String fileName) throws IOException {
+        char[] chars = fileName.toCharArray();
+        for (char c: chars) {
+            if (c < 65 || c > 122 || (c > 90 && c < 97)) {
+                throw new IllegalArgumentException("Nur die 26 Buchstaben des Alphabets verwenden.");
+            }
+        }
 
-        //todo exception handling for illegal filenames and other
         String userName = System.getProperty("user.name");
         String dirPathString = "C:\\Users\\"+ userName +"\\Documents\\GitterSaves";
         Path dirPath = Paths.get(dirPathString);
@@ -23,8 +29,10 @@ public class Saver {
 
         String filePathString = dirPathString + "\\" + fileName + ".txt";
 
-        //todo method should be able to overwrite file
         File saveFile = new File(filePathString);     //erzeugt Objekt, an angegebenen Pfad
+        if (saveFile.exists()) {
+            saveFile.delete();
+        }
         saveFile.createNewFile();       //erstellt Datei, falls sie nicht existiert
 
         FileWriter fileWriter = new FileWriter(filePathString);
@@ -47,18 +55,112 @@ public class Saver {
         }
         writer.newLine();
 
-        //todo also needs to save solution to a word
         for (Word word : w.getWords()) {
             String s = word.getWord();
-            writer.write(s);
+            writer.write(s + " ");
+            if (word.getDirection() != null) {
+                writer.write(word.getDirection() + " ");
+                writer.write(word.getX() + " ");
+                writer.write(word.getY() + " ");
+            }
             writer.newLine();
         }
+
+        writer.close();
     }
 
-    public static void load (String loadFile){ // !!! Rueckgabe eigentlich ein Textdokument/ file !!!
-        //todo exception handling for illegal/wrong path
-    }
-    public static void savaAndLoad(WordSearch w, String fileSaveName, String fileLoadName){
+    public static WordSearch load (String fileName) throws IOException { // !!! Rueckgabe eigentlich ein Textdokument/ file !!!
+        char[] chars = fileName.toCharArray();
+        for (char c: chars) {
+            if (c < 65 || c > 122 || (c > 90 && c < 97)) {
+                throw new IllegalArgumentException("Nur die 26 Buchstaben des Alphabets verwenden.");
+            }
+        }
+        if (fileName.contains(".txt")) {
+            throw new IllegalArgumentException("Dateiname ohne Dateityp angeben.");
+        }
 
+        String userName = System.getProperty("user.name");
+        String pathString = "C:\\Users\\"+ userName +"\\Documents\\GitterSaves\\";
+
+        File loadFile = new File(pathString + fileName + ".txt");
+        if (!loadFile.exists()) {
+            throw new IllegalArgumentException("Dateiname nicht bekannt.");
+        }
+
+        BufferedReader reader = new BufferedReader(new FileReader(loadFile));
+        int length, height;
+        try {
+            length = Integer.parseInt(reader.readLine());
+            height = Integer.parseInt(reader.readLine());
+        } catch (NumberFormatException e) {
+            throw new NumberFormatException("Datei ist korrumpiert.");
+        }
+
+        WordSearch w = new WordSearch(length, height);
+        Field f = w.getField();
+        for (int i = 0; i < height; i++) {
+            String s = reader.readLine();
+            for (int j = 0; j < length; j++) {
+                f.setChar(j, i, s.charAt(j * 2));
+            }
+        }
+        reader.readLine();
+        Scanner scanner;
+        while (true) {
+            String s = reader.readLine();
+            if (s == null) break;
+
+            scanner = new Scanner(s);
+            Word word = null;
+            String wordString = scanner.next();
+            if (scanner.hasNext()) {
+                String dirString = scanner.next();
+                Direction dir;
+                switch (dirString) {
+                    case "DOWN":
+                        dir = Direction.DOWN;
+                        break;
+                    case "DOWNLEFT":
+                        dir = Direction.DOWNLEFT;
+                        break;
+                    case "DOWNRIGHT":
+                        dir = Direction.DOWNRIGHT;
+                        break;
+                    case "LEFT":
+                        dir = Direction.LEFT;
+                        break;
+                    case "RIGHT":
+                        dir = Direction.RIGHT;
+                        break;
+                    case "UP":
+                        dir = Direction.UP;
+                        break;
+                    case "UPLEFT":
+                        dir = Direction.UPLEFT;
+                        break;
+                    case "UPNRIGHT":
+                        dir = Direction.UPRIGHT;
+                    default:
+                        dir = null;
+                }
+                int xPos = scanner.nextInt();
+                int yPos = scanner.nextInt();
+
+                word = new Word(wordString, dir, xPos, yPos);
+            }
+
+            if (word == null) {
+                word = new Word(wordString);
+            }
+            w.addToWordlist(word);
+        }
+
+        return w;
+    }
+    public static WordSearch saveAndLoad(WordSearch w, String fileSaveName, String fileLoadName) throws IOException{
+        WordSearch newW = load(fileLoadName);
+        save(w, fileSaveName);
+        return newW;
     }
 }
