@@ -69,7 +69,7 @@ public class Saver {
         writer.close();
     }
 
-    public static WordSearch load (String fileName) throws IOException { // !!! Rueckgabe eigentlich ein Textdokument/ file !!!
+    public static WordSearch load (String fileName) throws IOException, IllegalArgumentException { // !!! Rueckgabe eigentlich ein Textdokument/ file !!!
         char[] chars = fileName.toCharArray();
         for (char c: chars) {
             if (c < 65 || c > 122 || (c > 90 && c < 97)) {
@@ -158,7 +158,7 @@ public class Saver {
 
         return w;
     }
-    public static WordSearch saveAndLoad(WordSearch w, String fileSaveName, String fileLoadName) throws IOException{
+    public static WordSearch saveAndLoad(WordSearch w, String fileSaveName, String fileLoadName) throws IOException , IllegalArgumentException {
         WordSearch newW = load(fileLoadName);
         save(w, fileSaveName);
         return newW;
