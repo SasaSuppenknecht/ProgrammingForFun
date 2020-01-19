@@ -1,0 +1,10 @@
+3
+3
+R T S
+A B C
+F A U
+
+Hallo
+Wasserflasche
+Computer
+Loesung DOWN 4 4
