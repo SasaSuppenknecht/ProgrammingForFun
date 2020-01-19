@@ -21,7 +21,7 @@ public class WordSearch {
     public void addToWordlist(Word word) { // sortiert eingefuegt, laengstes Wort kommt als erstes
         if (!words.contains(word)) {
            ListIterator<Word> listIterator = words.listIterator(0);
-           while (listIterator.hasNext()) { //todo words ist zu Beginn leer, deswegen wird while nie erreicht
+           while (listIterator.hasNext()) {
                Word curWord = listIterator.next();
                if (curWord.getWord().length() > word.getWord().length()) {
                    words.add(word);
@@ -59,35 +59,81 @@ public class WordSearch {
             throw new IllegalArgumentException("Feld ist zu klein fuer laengstes Wort!");
         }else {
             field = new Field(length, height);
-            fill(words);
+            if(!fill(0)){
+                throw new IllegalArgumentException("Woerter passen nicht ins Feld!");
+            }else{
+                //TODO leere Felder fuellen
+            }
 
         }
     }
 
-    private boolean fill(LinkedList<Word> words){
-        boolean geklappt;
+    private boolean fill( int index){
         for (int y = 0; y < field.getHeight(); y++) {
             for (int x = 0; x < field.getLength(); x++) {
                 LinkedList<Word> wordsSave = (LinkedList<Word>) words.clone();
-                if (setWord(words.getFirst(), x, y, Direction.LEFT)){
-                    words.removeFirst();
-                    geklappt= fill(words);
-                    if (geklappt){
+                Word w =words.get(index);
+                if (setWord(w, x, y, Direction.LEFT)){
+                   if(setSolutionAndRekCall(w, x, y, Direction.LEFT, index++, wordsSave)){
+                       return true;
+                   }
+                }
+                if (setWord(w, x, y, Direction.UPLEFT)){
+                    if(setSolutionAndRekCall(w, x, y, Direction.UPLEFT, index++, wordsSave)){
                         return true;
-                    }else{
-                        words = wordsSave;
                     }
                 }
-                if (setWord(words.getFirst(), x, y, Direction.LEFT)){
-                    //TODO
+                if (setWord(w, x, y, Direction.UP)){
+                    if(setSolutionAndRekCall(w, x, y, Direction.UP, index++, wordsSave)){
+                        return true;
+                    }
+                }
+                if (setWord(w, x, y, Direction.UPRIGHT)){
+                    if(setSolutionAndRekCall(w, x, y, Direction.UPRIGHT, index++, wordsSave)){
+                        return true;
+                    }
+                }
+                if (setWord(w, x, y, Direction.RIGHT)){
+                    if(setSolutionAndRekCall(w, x, y, Direction.RIGHT, index++, wordsSave)){
+                        return true;
+                    }
+                }
+                if (setWord(w, x, y, Direction.DOWNRIGHT)){
+                    if(setSolutionAndRekCall(w, x, y, Direction.DOWNRIGHT, index++, wordsSave)){
+                        return true;
+                    }
+                }
+                if (setWord(w, x, y, Direction.DOWN)){
+                    if(setSolutionAndRekCall(w, x, y, Direction.DOWN, index++, wordsSave)){
+                        return true;
+                    }
+                }
+                if (setWord(w, x, y, Direction.DOWNLEFT)){
+                    if(setSolutionAndRekCall(w, x, y, Direction.DOWNLEFT, index++, wordsSave)){
+                        return true;
+                    }
                 }
             }
         }
         return false;
     }
 
+    private boolean setSolutionAndRekCall(Word w, int x, int y, Direction direction, int indCur, LinkedList<Word> wordsSave){
+        w.setSolution(direction, x, y);
+        boolean geklappt= fill(indCur);
+        if (geklappt){
+            return true;
+        }else{
+            words = wordsSave;
+        }
+        return false;
+    }
+
+
     private boolean setWord (Word word, int x, int y, Direction direction){
         //TODO Setzt Wort wenn es Platz hat und es keine falsche Ueberschneidung mit anderen Woerten hat
+        int length = word.getWord().length();
+        if ()
         return true;
     }
 
