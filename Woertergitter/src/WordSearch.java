@@ -26,9 +26,10 @@ public class WordSearch {
                if (curWord.getWord().length() > word.getWord().length()) {
                    words.add(word);
                    //listIterator.add(word);
-                   System.out.println(word);
+                   return;
                }
            }
+            words.add(word);
         }
     }
 
@@ -63,17 +64,30 @@ public class WordSearch {
         }
     }
 
-    private void fill(LinkedList<Word> words){
+    private boolean fill(LinkedList<Word> words){
+        boolean geklappt;
         for (int y = 0; y < field.getHeight(); y++) {
             for (int x = 0; x < field.getLength(); x++) {
-                if (fitsWord(words.getFirst(), x, y, Direction.LEFT)){
-
+                LinkedList<Word> wordsSave = (LinkedList<Word>) words.clone();
+                if (setWord(words.getFirst(), x, y, Direction.LEFT)){
+                    words.removeFirst();
+                    geklappt= fill(words);
+                    if (geklappt){
+                        return true;
+                    }else{
+                        words = wordsSave;
+                    }
+                }
+                if (setWord(words.getFirst(), x, y, Direction.LEFT)){
+                    //TODO
                 }
             }
         }
+        return false;
     }
 
-    private boolean fitsWord (Word word, int x, int y, Direction direction){
+    private boolean setWord (Word word, int x, int y, Direction direction){
+        //TODO Setzt Wort wenn es Platz hat und es keine falsche Ueberschneidung mit anderen Woerten hat
         return true;
     }
 
@@ -106,14 +120,19 @@ public class WordSearch {
                 System.out.print(" " + field.getChar(x, y));
             }
         }
-
-        System.out.println(words.size());
+        System.out.println("");
         for (int i = 0; i < words.size(); i++){ //gibt Woerteliste aus
             Word word = words.get(i);
-            System.out.println(i+1 + ". " + word.getWord() );
+            System.out.print(i+1 + ". " + word.getWord() );
             if (withSolution){
-                System.out.print(" " + word.getDirection() + " " + word.getX() + " " + word.getY());
+                Direction dir = word.getDirection();
+                String direction = null;
+                if (dir != null){
+                    direction = dir.getString();
+                    System.out.print(" - Richtung:" + direction + " x:" + word.getX() + " y:" + word.getY());
+                }
             }
+            System.out.println("");
         }
     }
 

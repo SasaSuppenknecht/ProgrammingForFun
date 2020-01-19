@@ -10,8 +10,7 @@ public class UserInterface {
     public static void main(String[] args) throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
-        String s = reader.readLine();
-        WordSearch w = Saver.load(s);
+        WordSearch w = Saver.load("test");
         w.print(true);
     }
 
