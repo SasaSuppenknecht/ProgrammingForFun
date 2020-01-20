@@ -1,20 +1,29 @@
 public enum Direction {
 
-    UP("oben"),
-    DOWN("unten"),
-    RIGHT("rechts"),
-    LEFT("links"),
-    UPRIGHT("oben rechts"),
-    UPLEFT("obenlinks"),
-    DOWNRIGHT("unten rechts"),
-    DOWNLEFT("unten links");
+    UP("oben", 0, -1),
+    DOWN("unten", 0, 1),
+    RIGHT("rechts", 1, 0),
+    LEFT("links", -1,0),
+    UPRIGHT("oben rechts", 1, -1),
+    UPLEFT("obenlinks", -1,-1),
+    DOWNRIGHT("unten rechts", 1,1),
+    DOWNLEFT("unten links", -1,1);
 
     private String s;
-    private Direction(String s) {
+    private int xChange;
+    private int yChange;
+
+    Direction(String s, int xChange, int yChange) {
         this.s = s;
+        this.xChange = xChange;
+        this.yChange = yChange;
     }
 
     public String getString() {
         return s;
     }
+
+    public int getXChange() {return xChange;}
+
+    public int getYChange() {return yChange;}
 }

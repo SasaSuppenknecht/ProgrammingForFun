@@ -133,7 +133,7 @@ public class WordSearch {
     private boolean setWord (Word word, int x, int y, Direction direction){
         //TODO Setzt Wort wenn es Platz hat und es keine falsche Ueberschneidung mit anderen Woerten hat
         int length = word.getWord().length();
-        if ()
+        //if ()
         return true;
     }
 
@@ -143,7 +143,33 @@ public class WordSearch {
 
     //public boolean setField() {return false;}  //macht Saver
 
-    public boolean solve() {return false;}
+    public boolean solve() {
+        boolean foundAll = true;
+        int length = field.getLength();
+        int height = field.getHeight();
+        for (Word word : words) {
+            boolean foundThis = false;
+            char[] chars = word.getWord().toCharArray();
+            char firstLetter = chars[0];
+            for (int x = 0; x < length; x++) {
+                for (int y = 0; y < height; y++) {
+                    char foundLetter = field.getChar(x, y);
+                    if (foundLetter == firstLetter) {
+                        Direction dir = word.getDirection();
+                        int xChange = dir.getXChange();
+                        int yChange = dir.getYChange();
+                        for (int i = 1; i < chars.length; i++) {
+
+                        }
+                    }
+                }
+            }
+        }
+
+
+        return foundAll;
+    }
+
 
     public Field getField() {
         return field;
@@ -180,8 +206,6 @@ public class WordSearch {
             System.out.println("");
         }
     }
-
-
 }
 
 

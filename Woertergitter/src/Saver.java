@@ -140,7 +140,7 @@ public class Saver {
                     case "UPLEFT":
                         dir = Direction.UPLEFT;
                         break;
-                    case "UPNRIGHT":
+                    case "UPRIGHT":
                         dir = Direction.UPRIGHT;
                     default:
                         dir = null;
