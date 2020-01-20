@@ -25,9 +25,9 @@ public class Field {
 
     public Field (int length, int height) throws IllegalArgumentException {
         if (length < 0) {
-            throw new IllegalArgumentException("length darf nicht kleiner als 1 sein");
+            throw new IndexOutOfBoundsException("length darf nicht kleiner als 0 sein");
         } else if (height < 0) {
-            throw new IllegalArgumentException("height darf nicht kleiner als 1 sein");
+            throw new IndexOutOfBoundsException("height darf nicht kleiner als 0 sein");
         }
         this.FIELD = new char[length][height];
         this.LENGTH = length;
@@ -51,11 +51,8 @@ public class Field {
      */
 
     public void setChar(int x, int y, char c) throws IllegalArgumentException, IndexOutOfBoundsException {
-        if (x < 0 || x >= LENGTH) {
-            throw new IndexOutOfBoundsException("x liegt außerhalb des Feldes");
-        } else if (y < 0 || y >= HEIGHT) {
-            throw new IndexOutOfBoundsException("y liegt außerhalb des Feldes");
-        } else if (c < 65 || c > 122 || (c < 97 && c > 90)) {
+        withinArray(x, y);
+        if (c < 65 || c > 122 || (c < 97 && c > 90)) {
             throw new IllegalArgumentException("Nur die 26 Buchstaben des Alphabets verwenden");
         }
 
@@ -76,6 +73,22 @@ public class Field {
         return new Field(f.length, f[0].length); //todo soll dies nur ein gleich groeßes Feld oder eine genaue Kopie von FIELD zurückgeben?
     }
 
+    /**
+     * Helper method to check whether the coordinates {@literal x} and {@literal y} are within the array {@link FIELD}. If that is
+     * not the case, it throws an {@link IndexOutOfBoundsException}.
+     *
+     * @param x x-position in the {@link FIELD}
+     * @param y y-position in the {@link FIELD}
+     * @throws IndexOutOfBoundsException if {@literal x} or {@literal y} are outside of {@link FIELD}
+     */
+
+    private void withinArray(int x, int y) throws IndexOutOfBoundsException {
+        if (x < 0 || x >= LENGTH) {
+            throw new IndexOutOfBoundsException("x liegt außerhalb des Feldes");
+        } else if (y < 0 || y >= HEIGHT) {
+            throw new IndexOutOfBoundsException("y liegt außerhalb des Feldes");
+        }
+    }
 
     // Getters ------------------------------------------------------------------------------------
 
@@ -91,11 +104,7 @@ public class Field {
      */
 
     public char getChar(int x, int y) throws IndexOutOfBoundsException {
-        if (x < 0 || x >= LENGTH) {
-            throw new IndexOutOfBoundsException("x liegt außerhalb des Feldes");
-        } else if (y < 0 || y >= HEIGHT) {
-            throw new IndexOutOfBoundsException("y liegt außerhalb des Feldes");
-        }
+        withinArray(x, y);
         return FIELD[x][y];
     }
 

@@ -19,7 +19,7 @@ public class WordSearch {
     // Constructors -------------------------------------------------------------------------------
 
     /**
-     * Creates a {@link WordSearch} with no {@link Field} and an empty {@link LinkedList} of Words.
+     * Creates a {@link WordSearch} with no {@link Field} and an empty {@link LinkedList} of {@link Word}s.
      */
 
     public WordSearch (){
@@ -28,7 +28,7 @@ public class WordSearch {
     }
 
     /**
-     * Creates a {@link WordSearch} with a {@link Field} of given length and height and an empty {@link LinkedList} of Words.
+     * Creates a {@link WordSearch} with a {@link Field} of given {@literal length} and {@literal height} and an empty {@link LinkedList} of {@link Word}s.
      *
      * @param length length of the Field
      * @param height height of the Field
@@ -46,7 +46,7 @@ public class WordSearch {
      * Adds an instance of {@link Word} to the LinkedList {@link words}, but only if no other instance in words has the same value for
      * its String attribute {@link Word.WORD}. It also sorts the list by the length of each instances attribute {@link Word.WORD}.
      *
-     * @param word the instance of Word that is to be inserted into LinkedList words
+     * @param word the instance of {@link Word} that is to be inserted into {@link words}
      */
 
     public void addToWordlist(Word word) { // sortiert eingefuegt, laengstes Wort kommt als erstes
@@ -253,9 +253,9 @@ public class WordSearch {
     /**
      * Prints out the array represented by {@link field} and the associated String values of {@link words} in the console.
      * If {@literal withSolution} is true, {@link Word.direction}, {@link Word.x} and {@link Word.y} are printed out behind
-     * the corresponding word.
+     * the corresponding word if they have values assigned to them.
      *
-     * @param withSolution a boolean deciding whether a solution is to printed out behind the corresponding word or not
+     * @param withSolution a boolean deciding whether a solution is to be printed out behind the corresponding word or not
      */
 
     public void print(boolean withSolution) {
@@ -265,13 +265,13 @@ public class WordSearch {
             System.out.print(" " + x);
         }
         for (int y = 0; y < field.getHeight(); y++) { //gibt Feld aus
-            System.out.println("");
+            System.out.println();
             System.out.print(y+1);
             for (int x = 0; x < field.getLength(); x++) {
                 System.out.print(" " + field.getChar(x, y));
             }
         }
-        System.out.println("");
+        System.out.println();
         for (int i = 0; i < words.size(); i++){ //gibt Woerteliste aus
             Word word = words.get(i);
             System.out.print(i+1 + ". " + word.getWord() );
@@ -283,7 +283,7 @@ public class WordSearch {
                     System.out.print(" - Richtung:" + direction + " x:" + word.getX() + " y:" + word.getY());
                 }
             }
-            System.out.println("");
+            System.out.println();
         }
     }
 

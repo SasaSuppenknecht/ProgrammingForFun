@@ -1,13 +1,11 @@
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 
 public class UserInterface {
 
     private static WordSearch grid;
     private String recentlyLoaded;
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException { //can be removed at the end once exception handling is done
         //BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
         WordSearch w = new WordSearch(4,4 );

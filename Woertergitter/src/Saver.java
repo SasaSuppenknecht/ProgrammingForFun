@@ -1,28 +1,18 @@
-import java.io.File;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Scanner;
 
 /**
- * This class saves and loads {@link WordSearch} into and from the filesystem. It generally creates a new directory called "GitterSave", in which it
- * saves the WordSearches as ".txt"-files.
+ * This class saves and loads {@link WordSearch}es into and from the filesystem. It generally creates a new directory called "GitterSave", in which it
+ * saves the {@link WordSearch}es as ".txt"-files.
  */
 
 public class Saver {
 
-    public static void save (WordSearch w, String fileName) throws IOException {
-        char[] chars = fileName.toCharArray();
-        for (char c: chars) {
-            if (c < 65 || c > 122 || (c > 90 && c < 97)) {
-                throw new IllegalArgumentException("Nur die 26 Buchstaben des Alphabets verwenden.");
-            }
-        }
+    public static void save (WordSearch w, String fileName) throws IllegalArgumentException, IOException {
+        fileNameTester(fileName);
 
         String userName = System.getProperty("user.name");
         String dirPathString = "C:\\Users\\"+ userName +"\\Documents\\GitterSaves";
@@ -75,23 +65,15 @@ public class Saver {
         writer.close();
     }
 
-    public static WordSearch load (String fileName, boolean wordlistOnly) throws IOException, IllegalArgumentException { // !!! Rueckgabe eigentlich ein Textdokument/ file !!!
-        char[] chars = fileName.toCharArray();
-        for (char c: chars) {
-            if (c < 65 || c > 122 || (c > 90 && c < 97)) {
-                throw new IllegalArgumentException("Nur die 26 Buchstaben des Alphabets verwenden.");
-            }
-        }
-        if (fileName.contains(".txt")) {
-            throw new IllegalArgumentException("Dateiname ohne Dateityp angeben.");
-        }
+    public static WordSearch load (String fileName, boolean wordlistOnly) throws IllegalArgumentException, IOException { // !!! Rueckgabe eigentlich ein Textdokument/ file !!!
+        fileNameTester(fileName);
 
         String userName = System.getProperty("user.name");
         String pathString = "C:\\Users\\"+ userName +"\\Documents\\GitterSaves\\";
 
         File loadFile = new File(pathString + fileName + ".txt");
         if (!loadFile.exists()) {
-            throw new IllegalArgumentException("Dateiname nicht bekannt.");
+            throw new FileNotFoundException("Dateiname nicht bekannt.");
         }
 
         BufferedReader reader = new BufferedReader(new FileReader(loadFile));
@@ -119,45 +101,17 @@ public class Saver {
           w = new WordSearch();
         }
 
-        Scanner scanner;
         while (true) {
             String s = reader.readLine();
             if (s == null) break;
 
-            scanner = new Scanner(s);
+            Scanner scanner = new Scanner(s);
             Word word = null;
             String wordString = scanner.next();
             if (scanner.hasNext()) {
                 String dirString = scanner.next();
-                Direction dir;
-                switch (dirString) {
-                    case "DOWN":
-                        dir = Direction.DOWN;
-                        break;
-                    case "DOWNLEFT":
-                        dir = Direction.DOWNLEFT;
-                        break;
-                    case "DOWNRIGHT":
-                        dir = Direction.DOWNRIGHT;
-                        break;
-                    case "LEFT":
-                        dir = Direction.LEFT;
-                        break;
-                    case "RIGHT":
-                        dir = Direction.RIGHT;
-                        break;
-                    case "UP":
-                        dir = Direction.UP;
-                        break;
-                    case "UPLEFT":
-                        dir = Direction.UPLEFT;
-                        break;
-                    case "UPRIGHT":
-                        dir = Direction.UPRIGHT;
-                        break;
-                    default:
-                        dir = null;
-                }
+                Direction dir = associateStringWithDirection(dirString);
+
                 int xPos = scanner.nextInt();
                 int yPos = scanner.nextInt();
 
@@ -168,11 +122,47 @@ public class Saver {
                 word = new Word(wordString);
             }
             w.addToWordlist(word);
+            scanner.close();
         }
 
+        reader.close();
         return w;
     }
 
+    private static void fileNameTester(String fileName) throws IOException {
+        char[] chars = fileName.toCharArray();
+        for (char c: chars) {
+            if (c < 65 || c > 122 || (c > 90 && c < 97)) {
+                throw new IllegalArgumentException("Nur die 26 Buchstaben des Alphabets verwenden.");
+            }
+        }
+        if (fileName.contains(".txt")) {
+            throw new IllegalArgumentException("Dateiname ohne Dateityp angeben.");
+        }
+    }
+
+    private static Direction associateStringWithDirection(String str) {
+        switch (str) {
+            case "DOWN":
+                return Direction.DOWN;
+            case "DOWNLEFT":
+                return Direction.DOWNLEFT;
+            case "DOWNRIGHT":
+                return Direction.DOWNRIGHT;
+            case "LEFT":
+                return Direction.LEFT;
+            case "RIGHT":
+                return Direction.RIGHT;
+            case "UP":
+                return Direction.UP;
+            case "UPLEFT":
+                return Direction.UPLEFT;
+            case "UPRIGHT":
+                return Direction.UPRIGHT;
+            default:
+                return null;
+        }
+    }
 
     public static WordSearch saveAndLoad(WordSearch w, String fileSaveName, String fileLoadName) throws IOException , IllegalArgumentException {
         WordSearch newW = load(fileLoadName, false);
