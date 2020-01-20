@@ -17,9 +17,10 @@ public class UserInterface {
             }
         }
 
-        w = Saver.load("createtest");
-        w.createField(9,9);
-        w.print(false);
+        w = Saver.load("solvetest", false);
+        boolean test = w.solve();
+        System.out.println(test);
+        w.print(true);
     }
 
     private static void printMenu() {}

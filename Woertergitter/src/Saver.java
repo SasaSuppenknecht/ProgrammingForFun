@@ -167,6 +167,8 @@ public class Saver {
 
         return w;
     }
+
+
     public static WordSearch saveAndLoad(WordSearch w, String fileSaveName, String fileLoadName) throws IOException , IllegalArgumentException {
         WordSearch newW = load(fileLoadName, false);
         save(w, fileSaveName);

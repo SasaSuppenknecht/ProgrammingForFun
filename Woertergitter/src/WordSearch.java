@@ -3,13 +3,29 @@ import java.util.ListIterator;
 
 public class WordSearch {
 
+    // Attributes ---------------------------------------------------------------------------------
+
     private Field field;
     private LinkedList<Word> words;
 
-    public WordSearch (){       //leerer Konstruktor, für Benutzeroberfläche
+
+    // Constructors -------------------------------------------------------------------------------
+
+    /**
+     * Creates a WordSearch with no Field and an empty LinkedList of Words.
+     */
+
+    public WordSearch (){
         field = null;
         words = new LinkedList<>();
     }
+
+    /**
+     * Creates a WordSearch with a Field of given length and height and an empty LinkedList of Words.
+     *
+     * @param length length of the Field
+     * @param height height of the Field
+     */
 
     public WordSearch (int length, int height){
         field = new Field(length, height);
@@ -17,9 +33,17 @@ public class WordSearch {
     }
 
 
+    // Methods ------------------------------------------------------------------------------------
+
+    /**
+     * Adds an instance of Word to the LinkedList words, but only if no other instance in words has the same value for
+     * its String attribute WORD. It also sorts the list by the length of each instances attribute WORD.
+     *
+     * @param word the instance of Word that is to be inserted into LinkedList words
+     */
 
     public void addToWordlist(Word word) { // sortiert eingefuegt, laengstes Wort kommt als erstes
-        if (!words.contains(word)) {
+        if (!words.contains(word)) {    //todo überprüft nur, ob schon eine gleiche Instanz dieses Wortes darin ist, nicht, ob schon ein Word mit demselben String darin ist
            ListIterator<Word> listIterator = words.listIterator(0);
            while (listIterator.hasNext()) {
                Word curWord = listIterator.next();
@@ -33,19 +57,31 @@ public class WordSearch {
         }
     }
 
-    public void removeFromWordlist(int position) throws IllegalArgumentException {
-        int index = position -1;
+    /**
+     * Removes an instance of Word from the LinkedList words at the given index. The indexation of the parameter position
+     * begins at 1, but is converted inside the mehtod to 0-indexation.
+     *
+     * @param position index of the word that is to be removed in 1-indexation
+     * @throws IndexOutOfBoundsException when the given index is not within the list
+     */
+
+    public void removeFromWordlist(int position) throws IndexOutOfBoundsException {
+        int index = position - 1;
         if (words.size() <= index ) {
-            throw new IllegalArgumentException("Position zu groß!");
+            throw new IndexOutOfBoundsException("Position zu groß!");
         }else if (index < 0 ) {
-            throw new IllegalArgumentException("Position darf nicht kleiner als 1 sein!");
+            throw new IndexOutOfBoundsException("Position darf nicht kleiner als 1 sein!");
         }else {
             words.remove(index);
         }
     }
 
+    /**
+     * Creates a new instance of LinkedList inside words, thus removing the old list.
+     */
+
     public void clearWordlist() {
-        words = null;
+        words = new LinkedList<Word>();
     }
 
     public void createField(int length, int height) throws IllegalArgumentException {
@@ -169,9 +205,6 @@ public class WordSearch {
     public void createMinimalField() {}
 
 
-
-    //public boolean setField() {return false;}  //macht Saver
-
     public boolean solve() {
         boolean foundAll = true;
         int length = field.getLength();
@@ -184,28 +217,30 @@ public class WordSearch {
                 for (int y = 0; y < height; y++) {
                     char foundLetter = field.getChar(x, y);
                     if (foundLetter == firstLetter) {
-                        Direction dir = word.getDirection();
+                        Direction dir = word.getDirection(); // can't know direction at this point todo
                         int xChange = dir.getXChange();
                         int yChange = dir.getYChange();
+                        int otherX = x + xChange;
+                        int otherY = y + yChange;
                         for (int i = 1; i < chars.length; i++) {
-
+                            foundLetter = field.getChar(otherX, otherY);
+                            if (!(foundLetter == chars[i])) {
+                                break;
+                            }
+                            if (i == chars.length - 1) {
+                                foundThis = true;
+                                word.setSolution(dir, x, y);
+                            }
                         }
                     }
                 }
             }
+            if (!foundThis) {
+                foundAll = false;
+            }
         }
 
-
         return foundAll;
-    }
-
-
-    public Field getField() {
-        return field;
-    }
-
-    public LinkedList<Word> getWords() {
-        return words;
     }
 
     public void print(boolean withSolution) {
@@ -235,6 +270,14 @@ public class WordSearch {
             System.out.println("");
         }
     }
+
+
+    // Getters ------------------------------------------------------------------------------------
+
+    public Field getField() {return field;}
+
+    public LinkedList<Word> getWords() {return words;}
+
 }
 
 

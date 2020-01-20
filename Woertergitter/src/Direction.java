@@ -9,15 +9,24 @@ public enum Direction {
     DOWNRIGHT("unten rechts", 1,1),
     DOWNLEFT("unten links", -1,1);
 
+
+    // Attributes ---------------------------------------------------------------------------------
+
     private String s;
     private int xChange;
     private int yChange;
+
+
+    // Constructors -------------------------------------------------------------------------------
 
     Direction(String s, int xChange, int yChange) {
         this.s = s;
         this.xChange = xChange;
         this.yChange = yChange;
     }
+
+
+    // Getters ------------------------------------------------------------------------------------
 
     public String getString() {
         return s;
