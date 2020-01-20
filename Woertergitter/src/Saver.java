@@ -70,7 +70,7 @@ public class Saver {
         writer.close();
     }
 
-    public static WordSearch load (String fileName) throws IOException, IllegalArgumentException { // !!! Rueckgabe eigentlich ein Textdokument/ file !!!
+    public static WordSearch load (String fileName, boolean wordlistOnly) throws IOException, IllegalArgumentException { // !!! Rueckgabe eigentlich ein Textdokument/ file !!!
         char[] chars = fileName.toCharArray();
         for (char c: chars) {
             if (c < 65 || c > 122 || (c > 90 && c < 97)) {
@@ -90,23 +90,30 @@ public class Saver {
         }
 
         BufferedReader reader = new BufferedReader(new FileReader(loadFile));
-        int length, height;
-        try {
-            length = Integer.parseInt(reader.readLine());
-            height = Integer.parseInt(reader.readLine());
-        } catch (NumberFormatException e) {
-            throw new NumberFormatException("Datei ist korrumpiert.");
+        WordSearch w;
+
+        if (!wordlistOnly) {
+            int length, height;
+            try {
+                length = Integer.parseInt(reader.readLine());
+                height = Integer.parseInt(reader.readLine());
+            } catch (NumberFormatException e) {
+                throw new NumberFormatException("Datei ist korrumpiert.");
+            }
+
+            w = new WordSearch(length, height);
+            Field f = w.getField();
+            for (int i = 0; i < height; i++) {
+                String s = reader.readLine();
+                for (int j = 0; j < length; j++) {
+                    f.setChar(j, i, s.charAt(j * 2));
+                }
+            }
+            reader.readLine();
+        } else {
+          w = new WordSearch();
         }
 
-        WordSearch w = new WordSearch(length, height);
-        Field f = w.getField();
-        for (int i = 0; i < height; i++) {
-            String s = reader.readLine();
-            for (int j = 0; j < length; j++) {
-                f.setChar(j, i, s.charAt(j * 2));
-            }
-        }
-        reader.readLine();
         Scanner scanner;
         while (true) {
             String s = reader.readLine();
@@ -142,6 +149,7 @@ public class Saver {
                         break;
                     case "UPRIGHT":
                         dir = Direction.UPRIGHT;
+                        break;
                     default:
                         dir = null;
                 }
@@ -160,7 +168,7 @@ public class Saver {
         return w;
     }
     public static WordSearch saveAndLoad(WordSearch w, String fileSaveName, String fileLoadName) throws IOException , IllegalArgumentException {
-        WordSearch newW = load(fileLoadName);
+        WordSearch newW = load(fileLoadName, false);
         save(w, fileSaveName);
         return newW;
     }
