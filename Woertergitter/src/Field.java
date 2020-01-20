@@ -1,3 +1,9 @@
+/**
+ * This class saves a "field" of a normal word-search as an two-dimensional array {@link FIELD} and has methods to change
+ * and share its contents.
+ */
+
+@SuppressWarnings("JavadocReference")
 public class Field {
 
     // Attributes ---------------------------------------------------------------------------------
@@ -9,12 +15,12 @@ public class Field {
     // Constructors -------------------------------------------------------------------------------
 
     /**
-     * Creates an instance of Field of given length and height. The coordinate-system representing this field starts with
-     * (0/0) in the top-left corner.
+     * Creates an instance of Field of given {@literal length} and {@literal height}. The coordinate-system representing this field starts with
+     * (0/0) in the <b>top-left</b> corner.
      *
      * @param length length of the Field
      * @param height height of the Field
-     * @throws IllegalArgumentException when either the given length or height are below 0
+     * @throws IllegalArgumentException if either the given length or height are below 0
      */
 
     public Field (int length, int height) throws IllegalArgumentException {
@@ -32,16 +38,16 @@ public class Field {
     // Methods ------------------------------------------------------------------------------------
 
     /**
-     * Places a character in the given position (x/y) inside the char-array FIELD. Only the 26 letters of the alphabet are
-     * accepted as characters and saved as uppercase characters. The method throws an IllegalArgumentException if other
-     * characters outside of the given scope are placed in the FIELD.
+     * Places a character {@literal c} in the given position (x/y) inside {@link FIELD}. Only the 26 letters of the alphabet
+     * are accepted as characters and saved as uppercase characters. The method throws an {@link IllegalArgumentException}
+     * if other characters outside of the given scope are placed in the {@link FIELD}.
      *
      * @param x x-position in FIELD
      * @param y y-position in FIELD
      * @param c the character that is to be inserted
-     * @throws IllegalArgumentException when c is not a letter of the alphabet
-     * @throws IndexOutOfBoundsException when x is below 0 or equal to or greater than LENGTH or when y is below 0 or
-     * equal to or greater than HEIGHT
+     * @throws IllegalArgumentException if {@literal c} is not a letter of the alphabet
+     * @throws IndexOutOfBoundsException if {@literal x} is below 0 or equal to or greater than {@link LENGTH} or if {@literal y}
+     * is below 0 or equal to or greater than {@link HEIGHT}
      */
 
     public void setChar(int x, int y, char c) throws IllegalArgumentException, IndexOutOfBoundsException {
@@ -74,14 +80,14 @@ public class Field {
     // Getters ------------------------------------------------------------------------------------
 
     /**
-     * Returns the respective character at the given position, but throws an IndexOutOfBoundsException when x or y are not
-     * within FIELD.
+     * Returns the respective character at the given position, but throws an {@link IndexOutOfBoundsException} when
+     * {@literal x} or {@literal y} are not within {@link FIELD}.
      *
      * @param x x-position in FIELD
      * @param y y-position in FIELD
      * @return the character at the given position
-     * @throws IndexOutOfBoundsException when x is below 0 or equal to or greater than LENGTH or when y is below 0 or
-     * equal to or greater than HEIGHT
+     * @throws IndexOutOfBoundsException if {@literal x} is below 0 or equal to or greater than {@link LENGTH} or if {@literal y}
+     * is below 0 or equal to or greater than {@link HEIGHT}
      */
 
     public char getChar(int x, int y) throws IndexOutOfBoundsException {

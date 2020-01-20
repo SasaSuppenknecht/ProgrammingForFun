@@ -1,3 +1,10 @@
+/**
+ * This class represents a word-String {@link WORD} that is saved by {@link WordSearch} and usually "hidden" inside {@link Field}.
+ * It <i>can</i> also save a solution to a word, meaning the exact position inside the array represented by {@link Field},
+ * defined through a {@link x}-position and a {@link y}-position inside the array and a {@link Direction}.
+ */
+
+@SuppressWarnings("JavadocReference")
 public class Word {
 
     // Attributes ---------------------------------------------------------------------------------
@@ -11,11 +18,11 @@ public class Word {
     // Constructors -------------------------------------------------------------------------------
 
     /**
-     * Creates a new instance of class Word and sets its attributes. The word-String is transformed to uppercase and lose
-     * white spaces at the front and end are cut off. It creates a Word without a solution.
+     * Creates a new instance of {@link Word} and sets its attributes. The {@literal word} is transformed to uppercase and lose
+     * white spaces at the front and end are cut off. It creates a {@link Word} without a solution.
      *
      * @param word the input word as a String
-     * @throws IllegalArgumentException when the 'word'-parameter does not only contain the 26 letters of the alphabet or if
+     * @throws IllegalArgumentException if the {@literal word} does not only contain the 26 letters of the alphabet or if
      * the length of the input-string is not between 5 and 15
      */
 
@@ -29,14 +36,14 @@ public class Word {
     }
 
     /**
-     * Creates a new instance of class Word and sets its attributes. The word-String is transformed to uppercase and lose
-     * white spaces at the front and end are cut off. It creates a Word with a solution.
+     * Creates a new instance of {@link Word} and sets its attributes. The {@literal word} is transformed to uppercase and lose
+     * white spaces at the front and end are cut off. It creates a {@link Word} with a solution.
      *
      * @param word the input word as a String
      * @param direction the direction in the Field saved as enumeration Direction
      * @param x x-position in Field
      * @param y y-position in Field
-     * @throws IllegalArgumentException when the 'word'-parameter does not only contain the 26 letters of the alphabet or if
+     * @throws IllegalArgumentException if the {@literal word} does not only contain the 26 letters of the alphabet or if
      * the length of the input-string is not between 5 and 15
      */
 
@@ -59,11 +66,11 @@ public class Word {
     }
 
     /**
-     * Helper method for the constructors. Tests if the word only contains the 26 letters of the alphabet and if its length
-     * is between 5 and 15. Otherwise it throws an IllegalArgumentException.
+     * Helper method for the constructors. Tests if the {@literal word} only contains the 26 letters of the alphabet and if its length
+     * is between 5 and 15. Otherwise it throws an {@link IllegalArgumentException}.
      *
      * @param word the input word as a String
-     * @throws IllegalArgumentException when the 'word'-parameter does not only contain the 26 letters of the alphabet or if
+     * @throws IllegalArgumentException if the {@literal word} does not only contain the 26 letters of the alphabet or if
      * the length of the input-string is not between 5 and 15
      */
 
@@ -91,7 +98,7 @@ public class Word {
     }
 
     /**
-     * Sets the solution of a Word. The solution is given as a coordinate (x/y) in the Field and a direction.
+     * Sets the solution of a {@link Word}. The solution is given as a coordinate (x/y) in the {@link Field} and a {@link Direction}.
      *
      * @param direction the direction in the Field saved as enumeration Direction
      * @param x x-position in Field

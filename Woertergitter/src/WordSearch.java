@@ -1,6 +1,13 @@
 import java.util.LinkedList;
 import java.util.ListIterator;
 
+/**
+ * This class remembers both a {@link Field} and a list of {@link Word}s in order to work with them. This class directly
+ * communicates with the {@link UserInterface} and executes its task or delegates them to {@link Field} or {@link Word}.
+ * It can also use these two components to "solve" the puzzle and create new ones based on a list.
+ */
+
+@SuppressWarnings("JavadocReference")
 public class WordSearch {
 
     // Attributes ---------------------------------------------------------------------------------
@@ -12,7 +19,7 @@ public class WordSearch {
     // Constructors -------------------------------------------------------------------------------
 
     /**
-     * Creates a WordSearch with no Field and an empty LinkedList of Words.
+     * Creates a {@link WordSearch} with no {@link Field} and an empty {@link LinkedList} of Words.
      */
 
     public WordSearch (){
@@ -21,7 +28,7 @@ public class WordSearch {
     }
 
     /**
-     * Creates a WordSearch with a Field of given length and height and an empty LinkedList of Words.
+     * Creates a {@link WordSearch} with a {@link Field} of given length and height and an empty {@link LinkedList} of Words.
      *
      * @param length length of the Field
      * @param height height of the Field
@@ -36,8 +43,8 @@ public class WordSearch {
     // Methods ------------------------------------------------------------------------------------
 
     /**
-     * Adds an instance of Word to the LinkedList words, but only if no other instance in words has the same value for
-     * its String attribute WORD. It also sorts the list by the length of each instances attribute WORD.
+     * Adds an instance of {@link Word} to the LinkedList {@link words}, but only if no other instance in words has the same value for
+     * its String attribute {@link Word.WORD}. It also sorts the list by the length of each instances attribute {@link Word.WORD}.
      *
      * @param word the instance of Word that is to be inserted into LinkedList words
      */
@@ -58,8 +65,8 @@ public class WordSearch {
     }
 
     /**
-     * Removes an instance of Word from the LinkedList words at the given index. The indexation of the parameter position
-     * begins at 1, but is converted inside the mehtod to 0-indexation.
+     * Removes an instance of {@link Word} from the LinkedList {@link words} at the given index. The indexation of the parameter position
+     * begins at 1, but is converted inside the method to 0-indexation.
      *
      * @param position index of the word that is to be removed in 1-indexation
      * @throws IndexOutOfBoundsException when the given index is not within the list
@@ -77,7 +84,7 @@ public class WordSearch {
     }
 
     /**
-     * Creates a new instance of LinkedList inside words, thus removing the old list.
+     * Creates a new instance of {@link LinkedList} inside {@link words}, thus removing the old list.
      */
 
     public void clearWordlist() {
@@ -243,8 +250,17 @@ public class WordSearch {
         return foundAll;
     }
 
+    /**
+     * Prints out the array represented by {@link field} and the associated String values of {@link words} in the console.
+     * If {@literal withSolution} is true, {@link Word.direction}, {@link Word.x} and {@link Word.y} are printed out behind
+     * the corresponding word.
+     *
+     * @param withSolution a boolean deciding whether a solution is to printed out behind the corresponding word or not
+     */
+
     public void print(boolean withSolution) {
         System.out.print(" ");
+
         for (int x = 1; x <= field.getLength(); x++){
             System.out.print(" " + x);
         }

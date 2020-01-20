@@ -9,6 +9,11 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Scanner;
 
+/**
+ * This class saves and loads {@link WordSearch} into and from the filesystem. It generally creates a new directory called "GitterSave", in which it
+ * saves the WordSearches as ".txt"-files.
+ */
+
 public class Saver {
 
     public static void save (WordSearch w, String fileName) throws IOException {
