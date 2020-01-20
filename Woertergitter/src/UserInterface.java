@@ -16,6 +16,10 @@ public class UserInterface {
                 TestClass.fillTest(w);
             }
         }
+
+        w = Saver.load("createtest");
+        w.createField(9,9);
+        w.print(false);
     }
 
     private static void printMenu() {}

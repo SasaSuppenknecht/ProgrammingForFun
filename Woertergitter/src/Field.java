@@ -45,4 +45,8 @@ public class Field {
         return HEIGHT;
     }
 
+    public Field cloneField(){
+        char[][] f = FIELD.clone();
+        return new Field(f.length, f[0].length);
+    }
 }

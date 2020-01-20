@@ -62,60 +62,72 @@ public class WordSearch {
             if(!fill(0)){
                 throw new IllegalArgumentException("Woerter passen nicht ins Feld!");
             }else{
-                //TODO leere Felder fuellen
+                // leere Felder fuellen
+                for (int y = 0; y < field.getHeight(); y++) {
+                    for (int x = 0; x < field.getLength(); x++) {
+                        if (field.getChar(x, y) == ' ') {
+                            int randomNum = (int) (Math.random() * 26) + 65;
+                            char c = (char) randomNum;
+                            field.setChar(x, y, c);
+                        }
+                    }
+                }
             }
-
         }
     }
 
     private boolean fill( int index){
-        for (int y = 0; y < field.getHeight(); y++) {
-            for (int x = 0; x < field.getLength(); x++) {
-                LinkedList<Word> wordsSave = (LinkedList<Word>) words.clone();
-                Word w =words.get(index);
-                if (setWord(w, x, y, Direction.LEFT)){
-                   if(setSolutionAndRekCall(w, x, y, Direction.LEFT, index++, wordsSave)){
-                       return true;
-                   }
-                }
-                if (setWord(w, x, y, Direction.UPLEFT)){
-                    if(setSolutionAndRekCall(w, x, y, Direction.UPLEFT, index++, wordsSave)){
-                        return true;
+        if (index  == words.size()){
+            return true;
+        } else {
+            for (int y = 0; y < field.getHeight(); y++) {
+                for (int x = 0; x < field.getLength(); x++) {
+                    LinkedList<Word> wordsSave = (LinkedList<Word>) words.clone();
+                    Word w = words.get(index);
+                    if (setWord(w, x, y, Direction.LEFT)) {
+                        if (setSolutionAndRekCall(w, x, y, Direction.LEFT, ++index, wordsSave)) {
+                            return true;
+                        }
                     }
-                }
-                if (setWord(w, x, y, Direction.UP)){
-                    if(setSolutionAndRekCall(w, x, y, Direction.UP, index++, wordsSave)){
-                        return true;
+                    if (setWord(w, x, y, Direction.UPLEFT)) {
+                        if (setSolutionAndRekCall(w, x, y, Direction.UPLEFT, ++index, wordsSave)) {
+                            return true;
+                        }
                     }
-                }
-                if (setWord(w, x, y, Direction.UPRIGHT)){
-                    if(setSolutionAndRekCall(w, x, y, Direction.UPRIGHT, index++, wordsSave)){
-                        return true;
+                    if (setWord(w, x, y, Direction.UP)) {
+                        if (setSolutionAndRekCall(w, x, y, Direction.UP, ++index, wordsSave)) {
+                            return true;
+                        }
                     }
-                }
-                if (setWord(w, x, y, Direction.RIGHT)){
-                    if(setSolutionAndRekCall(w, x, y, Direction.RIGHT, index++, wordsSave)){
-                        return true;
+                    if (setWord(w, x, y, Direction.UPRIGHT)) {
+                        if (setSolutionAndRekCall(w, x, y, Direction.UPRIGHT, ++index, wordsSave)) {
+                            return true;
+                        }
                     }
-                }
-                if (setWord(w, x, y, Direction.DOWNRIGHT)){
-                    if(setSolutionAndRekCall(w, x, y, Direction.DOWNRIGHT, index++, wordsSave)){
-                        return true;
+                    if (setWord(w, x, y, Direction.RIGHT)) {
+                        if (setSolutionAndRekCall(w, x, y, Direction.RIGHT, ++index, wordsSave)) {
+                            return true;
+                        }
                     }
-                }
-                if (setWord(w, x, y, Direction.DOWN)){
-                    if(setSolutionAndRekCall(w, x, y, Direction.DOWN, index++, wordsSave)){
-                        return true;
+                    if (setWord(w, x, y, Direction.DOWNRIGHT)) {
+                        if (setSolutionAndRekCall(w, x, y, Direction.DOWNRIGHT, ++index, wordsSave)) {
+                            return true;
+                        }
                     }
-                }
-                if (setWord(w, x, y, Direction.DOWNLEFT)){
-                    if(setSolutionAndRekCall(w, x, y, Direction.DOWNLEFT, index++, wordsSave)){
-                        return true;
+                    if (setWord(w, x, y, Direction.DOWN)) {
+                        if (setSolutionAndRekCall(w, x, y, Direction.DOWN, ++index, wordsSave)) {
+                            return true;
+                        }
+                    }
+                    if (setWord(w, x, y, Direction.DOWNLEFT)) {
+                        if (setSolutionAndRekCall(w, x, y, Direction.DOWNLEFT, ++index, wordsSave)) {
+                            return true;
+                        }
                     }
                 }
             }
+            return false;
         }
-        return false;
     }
 
     private boolean setSolutionAndRekCall(Word w, int x, int y, Direction direction, int indCur, LinkedList<Word> wordsSave){
@@ -131,9 +143,26 @@ public class WordSearch {
 
 
     private boolean setWord (Word word, int x, int y, Direction direction){
-        //TODO Setzt Wort wenn es Platz hat und es keine falsche Ueberschneidung mit anderen Woerten hat
+        // Setzt Wort wenn es Platz hat und es keine falsche Ueberschneidung mit anderen Woerten hat
         int length = word.getWord().length();
-        //if ()
+        Field fSave = field.cloneField();
+        try {
+            for (int i = 0; i < length; i++){
+                char setted = field.getChar(x,y);
+                char toSet = word.getWord().charAt(i);
+                if (setted == 0 || setted == toSet){     //Defaut Wert von char?
+                    field.setChar(x, y, toSet);
+                } else {
+                    field = fSave;
+                    return false;
+                }
+                x += direction.getXChange();
+                y += direction.getYChange();
+            }
+        }catch (IllegalArgumentException e){
+            field = fSave;
+            return false;
+        }
         return true;
     }
 
