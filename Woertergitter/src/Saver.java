@@ -11,18 +11,23 @@ import java.util.Scanner;
 
 public class Saver {
 
-    public static void save (WordSearch w, String fileName) throws IllegalArgumentException, IOException {
-        fileNameTester(fileName);
-
+    // can be used in UserInterface to make sure the directory "GitterSaves" exists
+    public static void createDirectory() throws IOException {
         String userName = System.getProperty("user.name");
-        String dirPathString = "C:\\Users\\"+ userName +"\\Documents\\GitterSaves";
+        String dirPathString = "C:\\Users\\" + userName + "\\Documents\\GitterSaves";
         Path dirPath = Paths.get(dirPathString);
 
         if (!Files.exists(dirPath)) {
             Files.createDirectory(dirPath);
         }
+    }
 
-        String filePathString = dirPathString + "\\" + fileName + ".txt";
+    public static void save (WordSearch w, String fileName) throws IllegalArgumentException, IOException {
+        createDirectory();
+        fileNameTester(fileName);
+
+        String userName = System.getProperty("user.name");
+        String filePathString = "C:\\Users\\" + userName + "\\Documents\\GitterSaves\\" + fileName + ".txt";
 
         File saveFile = new File(filePathString);     //erzeugt Objekt, an angegebenen Pfad
         if (saveFile.exists()) {
@@ -45,7 +50,7 @@ public class Saver {
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < length; j++) {
                 System.out.println(field.getChar(j, i));
-                writer.write( field.getChar(j,i) + " ");
+                writer.write( field.getChar(j, i) + " ");
             }
             writer.newLine();
         }
@@ -129,7 +134,7 @@ public class Saver {
         return w;
     }
 
-    private static void fileNameTester(String fileName) throws IOException {
+    private static void fileNameTester(String fileName) throws IllegalArgumentException {
         char[] chars = fileName.toCharArray();
         for (char c: chars) {
             if (c < 65 || c > 122 || (c > 90 && c < 97)) {

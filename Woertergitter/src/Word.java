@@ -87,15 +87,8 @@ public class Word {
         }
     }
 
+
     // Methods ------------------------------------------------------------------------------------
-
-    /**
-     * //todo
-     */
-
-    public void getPositionInField(){ //Ausgabe in Konsole
-        System.out.println(" "); //TODO
-    }
 
     /**
      * Sets the solution of a {@link Word}. The solution is given as a coordinate (x/y) in the {@link Field} and a {@link Direction}.

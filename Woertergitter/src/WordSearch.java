@@ -287,6 +287,53 @@ public class WordSearch {
         }
     }
 
+    /**
+     * //todo
+     */
+
+    public boolean getPositionInField(int index) throws IndexOutOfBoundsException { //Ausgabe in Konsole
+        if (index < 1 || index > words.size()) {
+            throw new IndexOutOfBoundsException("Der Index liegt nicht innerhalb der Liste.");
+        }
+
+        Word word = words.get(index - 1);
+        if (word.getDirection() == null) {
+            return false;
+        }
+
+        String wordString = word.getWord();
+        Field f = field.cloneField();
+        int xPos = word.getX();
+        int yPos = word.getY();
+        int xChange = word.getDirection().getXChange();
+        int yChange = word.getDirection().getYChange();
+
+        for (int i = 0; i < wordString.length(); i++) {
+            char c = Character.toLowerCase(wordString.charAt(i));
+            try {
+                f.setChar(xPos, yPos, c);
+            } catch (IndexOutOfBoundsException e) {
+                throw new IndexOutOfBoundsException("Das Wort liegt nicht innerhalb des Feldes.");
+            }
+            xPos += xChange;
+            yPos += yChange;
+        }
+
+        System.out.print(" ");
+        for (int x = 1; x <= f.getLength(); x++){
+            System.out.print(" " + x);
+        }
+        for (int y = 0; y < f.getHeight(); y++) { //gibt Feld aus
+            System.out.println();
+            System.out.print(y+1);
+            for (int x = 0; x < f.getLength(); x++) {
+                System.out.print(" " + f.getChar(x, y));
+            }
+        }
+
+        System.out.println();
+        return true;
+    }
 
     // Getters ------------------------------------------------------------------------------------
 
