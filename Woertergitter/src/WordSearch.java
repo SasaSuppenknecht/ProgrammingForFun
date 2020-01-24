@@ -47,21 +47,25 @@ public class WordSearch {
      * its String attribute {@link Word.WORD}. It also sorts the list by the length of each instances attribute {@link Word.WORD}.
      *
      * @param word the instance of {@link Word} that is to be inserted into {@link words}
+     * @return {@literal true} if word is successfully added, {@literal false} if word is already contained in the list
      */
 
-    public void addToWordlist(Word word) { // sortiert eingefuegt, laengstes Wort kommt als erstes
-        if (!words.contains(word)) {    //todo überprüft nur, ob schon eine gleiche Instanz dieses Wortes darin ist, nicht, ob schon ein Word mit demselben String darin ist
-           ListIterator<Word> listIterator = words.listIterator(0);
-           while (listIterator.hasNext()) {
-               Word curWord = listIterator.next();
-               if (curWord.getWord().length() > word.getWord().length()) {
-                   words.add(word);
-                   //listIterator.add(word);
-                   return;
-               }
-           }
-            words.add(word);
+    public boolean addToWordlist(Word word) { // sortiert eingefuegt, laengstes Wort kommt als erstes
+        ListIterator<Word> listIterator = words.listIterator(0);
+        while (listIterator.hasNext()) {
+            Word curWord = listIterator.next();
+            if (curWord.getWord().length() < word.getWord().length()) {
+                //words.add(word);
+                listIterator.add(word);
+                return true;
+            }else if (curWord.getWord().length() == word.getWord().length()){
+                if (curWord.getWord().equals(word.getWord())){
+                    return false;
+                }
+            }
         }
+        words.addLast(word);
+        return true;
     }
 
     /**
@@ -92,11 +96,7 @@ public class WordSearch {
     }
 
     public void createField(int length, int height) throws IllegalArgumentException {
-        if (length < 0 ) {
-            throw new IllegalArgumentException("Laenge des Feldes darf nicht kleiner als 0 sein!");
-        }else if (height < 0 ) {
-            throw new IllegalArgumentException("Hoehe des Feldes darf nicht kleiner als 0 sein!");
-        }else if (words == null || words.size() == 0 ) {
+        if (words == null || words.size() == 0 ) {
             throw new IllegalArgumentException("Keine Woerter in Woerterliste!");
         }else if (words.getFirst().getWord().length() > Integer.max(length,height)) {
             throw new IllegalArgumentException("Feld ist zu klein fuer laengstes Wort!");
@@ -108,10 +108,10 @@ public class WordSearch {
                 // leere Felder fuellen
                 for (int y = 0; y < field.getHeight(); y++) {
                     for (int x = 0; x < field.getLength(); x++) {
-                        if (field.getChar(x, y) == ' ') {
+                        if (field.getChar(x, y) == 0) {
                             int randomNum = (int) (Math.random() * 26) + 65;
                             char c = (char) randomNum;
-                            field.setChar(x, y, c);
+                            field.setChar(x, y, c, false);
                         }
                     }
                 }
@@ -123,78 +123,86 @@ public class WordSearch {
         if (index  == words.size()){
             return true;
         } else {
-            for (int y = 0; y < field.getHeight(); y++) {
+            for (int y = 0; y < field.getHeight(); y++) { //TODO Fehler bei y = 2, Methode schreibt bei 5,2 4,3 obwohl sie nicht sollte
                 for (int x = 0; x < field.getLength(); x++) {
                     LinkedList<Word> wordsSave = (LinkedList<Word>) words.clone();
+                    Field fSave = field.cloneField();
                     Word w = words.get(index);
-                    if (setWord(w, x, y, Direction.LEFT)) {
-                        if (setSolutionAndRekCall(w, x, y, Direction.LEFT, ++index, wordsSave)) {
+                    if (setWord(w, x, y, Direction.LEFT, fSave)) {
+                        if (setSolutionAndRekCall(w, x, y, Direction.LEFT, index +1 , wordsSave, fSave)) {
                             return true;
                         }
                     }
-                    if (setWord(w, x, y, Direction.UPLEFT)) {
-                        if (setSolutionAndRekCall(w, x, y, Direction.UPLEFT, ++index, wordsSave)) {
+                    if (setWord(w, x, y, Direction.UPLEFT, fSave)) {
+                        if (setSolutionAndRekCall(w, x, y, Direction.UPLEFT, index +1, wordsSave, fSave)) {
                             return true;
                         }
                     }
-                    if (setWord(w, x, y, Direction.UP)) {
-                        if (setSolutionAndRekCall(w, x, y, Direction.UP, ++index, wordsSave)) {
+                    if (setWord(w, x, y, Direction.UP, fSave)) {
+                        //this.print(false);
+                        if (setSolutionAndRekCall(w, x, y, Direction.UP, index +1, wordsSave, fSave)) {
                             return true;
                         }
                     }
-                    if (setWord(w, x, y, Direction.UPRIGHT)) {
-                        if (setSolutionAndRekCall(w, x, y, Direction.UPRIGHT, ++index, wordsSave)) {
+                    if (setWord(w, x, y, Direction.UPRIGHT, fSave)) {
+                        if (setSolutionAndRekCall(w, x, y, Direction.UPRIGHT, index +1, wordsSave, fSave)) {
                             return true;
                         }
                     }
-                    if (setWord(w, x, y, Direction.RIGHT)) {
-                        if (setSolutionAndRekCall(w, x, y, Direction.RIGHT, ++index, wordsSave)) {
+                    if (setWord(w, x, y, Direction.RIGHT, fSave)) {
+                        //this.print(false);
+                        if (setSolutionAndRekCall(w, x, y, Direction.RIGHT, index +1, wordsSave, fSave)) {
                             return true;
                         }
                     }
-                    if (setWord(w, x, y, Direction.DOWNRIGHT)) {
-                        if (setSolutionAndRekCall(w, x, y, Direction.DOWNRIGHT, ++index, wordsSave)) {
+                    if (setWord(w, x, y, Direction.DOWNRIGHT, fSave)) {
+                        //this.print(false);
+                        if (setSolutionAndRekCall(w, x, y, Direction.DOWNRIGHT, index +1, wordsSave, fSave)) {
                             return true;
                         }
                     }
-                    if (setWord(w, x, y, Direction.DOWN)) {
-                        if (setSolutionAndRekCall(w, x, y, Direction.DOWN, ++index, wordsSave)) {
+                    if (setWord(w, x, y, Direction.DOWN, fSave)) {
+                        //this.print(false);
+                        if (setSolutionAndRekCall(w, x, y, Direction.DOWN, index +1, wordsSave, fSave)) {
                             return true;
                         }
                     }
-                    if (setWord(w, x, y, Direction.DOWNLEFT)) {
-                        if (setSolutionAndRekCall(w, x, y, Direction.DOWNLEFT, ++index, wordsSave)) {
+                    if (setWord(w, x, y, Direction.DOWNLEFT, fSave)) {
+                        if (setSolutionAndRekCall(w, x, y, Direction.DOWNLEFT, index +1, wordsSave, fSave)) {
                             return true;
                         }
                     }
+
                 }
             }
             return false;
         }
     }
 
-    private boolean setSolutionAndRekCall(Word w, int x, int y, Direction direction, int indCur, LinkedList<Word> wordsSave){
+    private boolean setSolutionAndRekCall(Word w, int x, int y, Direction direction, int indCur, LinkedList<Word> wordsSave, Field fSave){
         w.setSolution(direction, x, y);
+        this.print(false);
         boolean geklappt= fill(indCur);
+        this.print(false);
         if (geklappt){
             return true;
         }else{
             words = wordsSave;
+            field = fSave;
         }
         return false;
     }
 
 
-    private boolean setWord (Word word, int x, int y, Direction direction){
+    private boolean setWord (Word word, int x, int y, Direction direction, Field fSave){
         // Setzt Wort wenn es Platz hat und es keine falsche Ueberschneidung mit anderen Woerten hat
         int length = word.getWord().length();
-        Field fSave = field.cloneField();
         try {
             for (int i = 0; i < length; i++){
-                char setted = field.getChar(x,y);
+                char setChar = field.getChar(x,y);
                 char toSet = word.getWord().charAt(i);
-                if (setted == 0 || setted == toSet){     //Defaut Wert von char?
-                    field.setChar(x, y, toSet);
+                if (setChar == 0 || setChar == toSet){
+                    field.setChar(x, y, toSet, false);
                 } else {
                     field = fSave;
                     return false;
@@ -202,7 +210,7 @@ public class WordSearch {
                 x += direction.getXChange();
                 y += direction.getYChange();
             }
-        }catch (IllegalArgumentException e){
+        }catch (IllegalArgumentException | IndexOutOfBoundsException e ){
             field = fSave;
             return false;
         }
@@ -259,18 +267,8 @@ public class WordSearch {
      */
 
     public void print(boolean withSolution) {
-        System.out.print(" ");
+        printField(field);
 
-        for (int x = 1; x <= field.getLength(); x++){
-            System.out.print(" " + x);
-        }
-        for (int y = 0; y < field.getHeight(); y++) { //gibt Feld aus
-            System.out.println();
-            System.out.print(y+1);
-            for (int x = 0; x < field.getLength(); x++) {
-                System.out.print(" " + field.getChar(x, y));
-            }
-        }
         System.out.println();
         for (int i = 0; i < words.size(); i++){ //gibt Woerteliste aus
             Word word = words.get(i);
@@ -311,14 +309,19 @@ public class WordSearch {
         for (int i = 0; i < wordString.length(); i++) {
             char c = Character.toLowerCase(wordString.charAt(i));
             try {
-                f.setChar(xPos, yPos, c);
+                f.setChar(xPos, yPos, c, true);
             } catch (IndexOutOfBoundsException e) {
                 throw new IndexOutOfBoundsException("Das Wort liegt nicht innerhalb des Feldes.");
             }
             xPos += xChange;
             yPos += yChange;
         }
+        printField(f);
 
+        return true;
+    }
+
+    private void printField(Field f) {
         System.out.print(" ");
         for (int x = 1; x <= f.getLength(); x++){
             System.out.print(" " + x);
@@ -332,7 +335,6 @@ public class WordSearch {
         }
 
         System.out.println();
-        return true;
     }
 
     // Getters ------------------------------------------------------------------------------------

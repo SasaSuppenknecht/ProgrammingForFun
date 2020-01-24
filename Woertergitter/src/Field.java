@@ -49,18 +49,21 @@ public class Field {
      * @throws IndexOutOfBoundsException if {@literal x} is below 0 or equal to or greater than {@link LENGTH} or if {@literal y}
      * is below 0 or equal to or greater than {@link HEIGHT}
      */
+    // TODO Update Annotation
 
-    public void setChar(int x, int y, char c) throws IllegalArgumentException, IndexOutOfBoundsException {
+    public void setChar(int x, int y, char c, boolean lowercaseAllowed) throws IllegalArgumentException, IndexOutOfBoundsException {
         withinArray(x, y);
         if (c < 65 || c > 122 || (c < 97 && c > 90)) {
             throw new IllegalArgumentException("Nur die 26 Buchstaben des Alphabets verwenden");
         }
 
-        if (c >= 97) {
+        if (c >= 97 && !lowercaseAllowed) {
             c = Character.toUpperCase(c);
         }
         FIELD[x][y] = c;
     }
+
+
 
     /**
      * Creates and returns
@@ -70,7 +73,16 @@ public class Field {
 
     public Field cloneField(){
         char[][] f = FIELD.clone();
-        return new Field(f.length, f[0].length); //todo soll dies nur ein gleich groeßes Feld oder eine genaue Kopie von FIELD zurückgeben?
+        Field feld = new Field(LENGTH, HEIGHT); //todo soll dies nur ein gleich groeßes Feld oder eine genaue Kopie von FIELD zurückgeben?
+        for (int y = 0; y < HEIGHT; y++) {
+            for (int x = 0; x < LENGTH; x++) {
+                char c = FIELD[x][y];
+                if (c != 0) {
+                    feld.setChar(x, y, c, false);
+                }
+            }
+        }
+        return feld;
     }
 
     /**

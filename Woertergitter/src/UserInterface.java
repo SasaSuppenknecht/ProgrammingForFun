@@ -15,10 +15,14 @@ public class UserInterface {
             }
         }
 
-        w = Saver.load("solvetest", false);
-        boolean test = w.solve();
-        System.out.println(test);
+
+
+
+        w = Saver.load("createtest", true);
+        w.createField(6,6);
         w.print(true);
+
+
     }
 
     private static void printMenu() {}

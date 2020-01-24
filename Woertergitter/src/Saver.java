@@ -98,7 +98,7 @@ public class Saver {
             for (int i = 0; i < height; i++) {
                 String s = reader.readLine();
                 for (int j = 0; j < length; j++) {
-                    f.setChar(j, i, s.charAt(j * 2));
+                    f.setChar(j, i, s.charAt(j * 2), false);
                 }
             }
             reader.readLine();
