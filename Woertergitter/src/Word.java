@@ -113,6 +113,11 @@ public class Word {
         }
     }
 
+    public void deleteSolution() {
+        this.direction = null;
+        this.x = -1;
+        this.y = -1;
+    }
 
     // Getters ------------------------------------------------------------------------------------
 

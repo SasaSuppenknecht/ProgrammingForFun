@@ -128,7 +128,7 @@ public class WordSearch {
                     LinkedList<Word> wordsSave = (LinkedList<Word>) words.clone();
                     Field fSave = field.cloneField();
                     Word w = words.get(index);
-                    if (setWord(w, x, y, Direction.LEFT, fSave)) {
+                    if (setWord(w, x, y, Direction.LEFT, fSave)) { //TODO mit for-Schleife vereinfachen
                         if (setSolutionAndRekCall(w, x, y, Direction.LEFT, index +1 , wordsSave, fSave)) {
                             return true;
                         }
@@ -221,37 +221,63 @@ public class WordSearch {
 
 
     public boolean solve() {
+
         boolean foundAll = true;
         int length = field.getLength();
         int height = field.getHeight();
+
         for (Word word : words) {
-            boolean foundThis = false;
+
+            boolean foundThisWord = false;
             char[] chars = word.getWord().toCharArray();
             char firstLetter = chars[0];
+
             for (int x = 0; x < length; x++) {
                 for (int y = 0; y < height; y++) {
+
                     char foundLetter = field.getChar(x, y);
+
                     if (foundLetter == firstLetter) {
-                        Direction dir = word.getDirection(); // can't know direction at this point todo
-                        int xChange = dir.getXChange();
-                        int yChange = dir.getYChange();
-                        int otherX = x + xChange;
-                        int otherY = y + yChange;
-                        for (int i = 1; i < chars.length; i++) {
-                            foundLetter = field.getChar(otherX, otherY);
-                            if (!(foundLetter == chars[i])) {
-                                break;
+                        for (Direction dir : Direction.values()) {
+                            int xChange = dir.getXChange();
+                            int yChange = dir.getYChange();
+                            int currentCharX = x, currentCharY = y;
+                            for (int i = 1; i < chars.length; i++) {
+                                currentCharX += xChange;
+                                currentCharY += yChange;
+
+                                if (currentCharX < 0 || length <= currentCharX) {
+                                    break;
+                                } else if (currentCharY < 0 || height <= currentCharY) {
+                                    break;
+                                }
+
+                                char otherFoundLetter = field.getChar(currentCharX, currentCharY);
+
+                                if (otherFoundLetter != chars[i]) {
+                                    break;
+                                }
+
+                                if (i + 1 == chars.length) {
+                                    foundThisWord = true;
+                                    word.setSolution(dir, x, y);
+                                }
                             }
-                            if (i == chars.length - 1) {
-                                foundThis = true;
-                                word.setSolution(dir, x, y);
-                            }
+                            if (foundThisWord) break;
                         }
                     }
+                    if (foundThisWord) break;
                 }
+                if (foundThisWord) break;
             }
-            if (!foundThis) {
+            if (!foundThisWord) {
                 foundAll = false;
+            }
+        }
+
+        if (!foundAll) {
+            for (Word word : words) {           //dangerous, cause it deletes EVERY solution
+                word.deleteSolution();
             }
         }
 
@@ -259,7 +285,7 @@ public class WordSearch {
     }
 
     /**
-     * Prints out the array represented by {@link field} and the associated String values of {@link words} in the console.
+     * Prints out the array represented by {@link field} with coordinates and the associated String values of {@link words} in the console.
      * If {@literal withSolution} is true, {@link Word.direction}, {@link Word.x} and {@link Word.y} are printed out behind
      * the corresponding word if they have values assigned to them.
      *
@@ -278,7 +304,7 @@ public class WordSearch {
                 String direction = null;
                 if (dir != null){
                     direction = dir.getString();
-                    System.out.print(" - Richtung:" + direction + " x:" + word.getX() + " y:" + word.getY());
+                    System.out.print(" - Richtung:" + direction + " x:" + (word.getX() + 1) + " y:" + (word.getY() + 1));
                 }
             }
             System.out.println();
@@ -317,6 +343,8 @@ public class WordSearch {
             yPos += yChange;
         }
         printField(f);
+
+        //TODO vielleicht muss man die Buchstaben wieder zu Uppercase stellen
 
         return true;
     }
