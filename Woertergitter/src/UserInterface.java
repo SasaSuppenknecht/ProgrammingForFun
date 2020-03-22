@@ -15,15 +15,19 @@ public class UserInterface {
             }
         }
 
-
-
-
-        w = Saver.load("createtest", true);
-        w.createField(6,6);
+        w = Saver.load("solvetest", false);
+        w.solve();
         w.print(true);
+
+//        w = Saver.load("createtest", true);
+//        w.createField(6,6);
+//        w.print(true);
 
 
     }
+
+
+
 
     private static void printMenu() {}
 }
