@@ -131,7 +131,7 @@ public class WordSearch {
             Field fSave = field.cloneField();
             Word w = words.get(index);
 
-            for (int y = 0; y < field.getHeight(); y++) { //TODO Fehler bei y = 2, Methode schreibt bei 5,2 4,3 obwohl sie nicht sollte
+            for (int y = 0; y < field.getHeight(); y++) {
                 for (int x = 0; x < field.getLength(); x++) {
                     for(Direction dir: Direction.values()){
                         if (setWord(w, x, y, dir, fSave)) {
