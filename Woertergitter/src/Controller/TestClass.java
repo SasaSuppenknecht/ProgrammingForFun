@@ -1,3 +1,5 @@
+package Controller;
+
 public class TestClass {
 
     public static void fillTest(WordSearch w) {

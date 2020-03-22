@@ -1,3 +1,5 @@
+package Controller;
+
 public enum Direction {
 
     UP("oben", 0, -1),

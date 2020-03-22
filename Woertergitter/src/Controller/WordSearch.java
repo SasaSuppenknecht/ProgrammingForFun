@@ -1,9 +1,13 @@
+package Controller;
+
+import GUI.MainMenu;
+
 import java.util.LinkedList;
 import java.util.ListIterator;
 
 /**
  * This class remembers both a {@link Field} and a list of {@link Word}s in order to work with them. This class directly
- * communicates with the {@link UserInterface} and executes its task or delegates them to {@link Field} or {@link Word}.
+ * communicates with the {@link MainMenu} and executes its task or delegates them to {@link Field} or {@link Word}.
  * It can also use these two components to "solve" the puzzle and create new ones based on a list.
  */
 
@@ -30,8 +34,8 @@ public class WordSearch {
     /**
      * Creates a {@link WordSearch} with a {@link Field} of given {@literal length} and {@literal height} and an empty {@link LinkedList} of {@link Word}s.
      *
-     * @param length length of the Field
-     * @param height height of the Field
+     * @param length length of the Controller.Field
+     * @param height height of the Controller.Field
      */
 
     public WordSearch (int length, int height){
