@@ -1,6 +1,18 @@
 package Controller;
 
+import java.io.IOException;
+
 public class TestClass {
+
+    public static void main(String[] args) throws IOException {
+
+        WordSearch wordSearch;
+        wordSearch = Saver.load("createtest", true);
+
+        wordSearch.createField(6,5);
+
+        wordSearch.print(true);
+    }
 
     public static void fillTest(WordSearch w) {
         Field f = w.getField();
