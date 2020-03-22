@@ -72,8 +72,8 @@ public class Field {
      */
 
     public Field cloneField(){
-        char[][] f = FIELD.clone();
-        Field feld = new Field(LENGTH, HEIGHT); //todo soll dies nur ein gleich groeßes Feld oder eine genaue Kopie von FIELD zurückgeben?
+        //char[][] f = FIELD.clone();
+        Field feld = new Field(LENGTH, HEIGHT);
         for (int y = 0; y < HEIGHT; y++) {
             for (int x = 0; x < LENGTH; x++) {
                 char c = FIELD[x][y];

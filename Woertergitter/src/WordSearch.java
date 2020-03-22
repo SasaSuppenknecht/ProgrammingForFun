@@ -123,12 +123,25 @@ public class WordSearch {
         if (index  == words.size()){
             return true;
         } else {
+            LinkedList<Word> wordsSave = (LinkedList<Word>) words.clone();
+            Field fSave = field.cloneField();
+            Word w = words.get(index);
+
             for (int y = 0; y < field.getHeight(); y++) { //TODO Fehler bei y = 2, Methode schreibt bei 5,2 4,3 obwohl sie nicht sollte
                 for (int x = 0; x < field.getLength(); x++) {
-                    LinkedList<Word> wordsSave = (LinkedList<Word>) words.clone();
-                    Field fSave = field.cloneField();
-                    Word w = words.get(index);
-                    if (setWord(w, x, y, Direction.LEFT, fSave)) {
+                    for(Direction dir: Direction.values()){
+                        if (setWord(w, x, y, dir, fSave)) {
+                            if (setSolutionAndRekCall(w, x, y, dir, index +1 , wordsSave, fSave)) {
+                                return true;
+                            }else{
+                                words = wordsSave;
+                                field = fSave.cloneField();
+                            }
+                        }
+                    }
+
+
+                    /*if (setWord(w, x, y, Direction.LEFT, fSave)) {
                         if (setSolutionAndRekCall(w, x, y, Direction.LEFT, index +1 , wordsSave, fSave)) {
                             return true;
                         }
@@ -171,24 +184,24 @@ public class WordSearch {
                         if (setSolutionAndRekCall(w, x, y, Direction.DOWNLEFT, index +1, wordsSave, fSave)) {
                             return true;
                         }
-                    }
+                    }*/
 
                 }
             }
+            words = wordsSave;
+            field = fSave.cloneField();
             return false;
         }
     }
 
     private boolean setSolutionAndRekCall(Word w, int x, int y, Direction direction, int indCur, LinkedList<Word> wordsSave, Field fSave){
         w.setSolution(direction, x, y);
-        this.print(false);
         boolean geklappt= fill(indCur);
-        this.print(false);
         if (geklappt){
             return true;
         }else{
             words = wordsSave;
-            field = fSave;
+            field = fSave.cloneField();
         }
         return false;
     }
@@ -204,14 +217,14 @@ public class WordSearch {
                 if (setChar == 0 || setChar == toSet){
                     field.setChar(x, y, toSet, false);
                 } else {
-                    field = fSave;
+                    field = fSave.cloneField();
                     return false;
                 }
                 x += direction.getXChange();
                 y += direction.getYChange();
             }
         }catch (IllegalArgumentException | IndexOutOfBoundsException e ){
-            field = fSave;
+            field = fSave.cloneField();
             return false;
         }
         return true;
